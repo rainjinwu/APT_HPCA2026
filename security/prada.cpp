@@ -302,13 +302,13 @@ int main(int argc, char* argv[]){
     }
 
     if(analyze_proximate_row){
-        int h2 = 5;
+        int h2 = 17; //test second step height of 2, 4, 8, 16
         double Damage1 = 0.0;
         double Damage1_with_extra_ref = 0.0;
         uns trh_star1[h2 + 1] = {0};
         uns trh_star1_with_extra_ref[h2 + 1] = {0};
         printf ("%u\t", 1);
-        for (int ii = 2; ii < h2; ++ii) {
+        for (int ii = 2; ii < h2; ii *= 2) {
             printf ("%u\t%u\t", trh_star1[ii], trh_star1_with_extra_ref[ii]);
         }
         printf("\n");
@@ -317,7 +317,7 @@ int main(int argc, char* argv[]){
 
         for (int ii = 2; ii <= MAX_BLAST_RADIUS+20; ++ii) {
             printf ("%u\t", ii);
-            for (int jj = 2; jj < h2; ++jj) {
+            for (int jj = 2; jj < h2; jj *= 2) {
                 Damage1 = abs((1.0 + 1.0 / (ii * jj)) * log(pow(10, -18))
                             / log(1.0 - 1.0 / ii));
                 Damage1_with_extra_ref = abs((1.0 + 1.0 / (ii * jj)) * log(pow(10, -18))
@@ -334,36 +334,54 @@ int main(int argc, char* argv[]){
     }
 
     if(analyze_general_height){
-        double h1 = 2.0;
-        double h2 = 3.0;
-        double h3 = 4.0;
-        double h4 = 5.0;
-        double h5 = 6.0;
-        double Damage1 = 0.0;
-        double Damage2 = 0.0;
-        double Damage3 = 0.0;
-        double Damage4 = 0.0;
-        double Damage5 = 0.0;
-        uns trh_star1 = 0;
-        uns trh_star2 = 0;
-        uns trh_star3 = 0;
-        uns trh_star4 = 0;
-        uns trh_star5 = 0;
-        printf ("%5u\t%3u\t%3u\t%3u\t%3u\t%3u\n", 1, trh_star1, trh_star2, trh_star3, trh_star4, trh_star5);
-        // printf ("%u\t%u\n", 1, trh_star);
-        for (int ii = 10; ii <= 10000; ii *= 10) {
-            Damage1 = abs((1.0 / ii + 1.0 / (ii * h1)) * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * h1)));
-            Damage2 = abs((1.0 / ii + 1.0 / (ii * h2)) * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * h2)));
-            Damage3 = abs((1.0 / ii + 1.0 / (ii * h3)) * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * h3)));
-            Damage4 = abs((1.0 / ii + 1.0 / (ii * h4)) * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * h4)));
-            Damage5 = abs((1.0 / ii + 1.0 / (ii * h5)) * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * h5)));
-            trh_star1 = Damage1 / 2;
-            trh_star2 = Damage2 / 2;
-            trh_star3 = Damage3 / 2;
-            trh_star4 = Damage4 / 2;
-            trh_star5 = Damage5 / 2;
-            printf ("%5u\t%3u\t%3u\t%3u\t%3u\t%3u\n", ii, trh_star1, trh_star2, trh_star3, trh_star4, trh_star5);
-            // printf ("%u\t%u\n", ii, trh_star);
+        int h = 17; //test step heights of 2, 4, 8, 16
+        double Damage = 0.0;
+        uns trh_star = 0;
+        printf ("%5u\t", 1);
+        for (int ii = 2; ii < h; ii *= 2) {
+            printf ("%3u\t", trh_star);
+        }
+        printf("\n");
+        
+        for (int ii = 2; ii <= 10; ++ii) {
+            printf ("%5u\t", ii);
+            for (int jj = 2; jj < h; jj *= 2) {
+                Damage = abs((1.0 / ii + 1.0 / (ii * jj)) * log(pow(10, -18))
+                             / log(1.0 - 1.0 / (ii * jj)));
+                trh_star = Damage / 2;
+                printf ("%3u\t", trh_star);
+            }
+            printf("\n");
+        }
+        for (int ii = 20; ii <= 100; ii += 10) {
+            printf ("%5u\t", ii);
+            for (int jj = 2; jj < h; jj *= 2) {
+                Damage = abs((1.0 / ii + 1.0 / (ii * jj)) * log(pow(10, -18))
+                             / log(1.0 - 1.0 / (ii * jj)));
+                trh_star = Damage / 2;
+                printf ("%3u\t", trh_star);
+            }
+            printf("\n");
+        }
+        for (int ii = 200; ii <= 1000; ii += 100) {
+            printf ("%5u\t", ii);
+            for (int jj = 2; jj < h; jj *= 2) {
+                Damage = abs((1.0 / ii + 1.0 / (ii * jj)) * log(pow(10, -18))
+                             / log(1.0 - 1.0 / (ii * jj)));
+                trh_star = Damage / 2;
+                printf ("%3u\t", trh_star);
+            }
+            printf("\n");
+        }
+        for (int ii = 2000; ii <= 10000; ii += 1000) {
+            printf ("%5u\t", ii);
+            for (int jj = 2; jj < h; jj *= 2) {
+                Damage = abs((1.0 / ii + 1.0 / (ii * jj)) * log(pow(10, -18))
+                             / log(1.0 - 1.0 / (ii * jj)));
+                trh_star = Damage / 2;
+                printf ("%3u\t", trh_star);
+            }
+            printf("\n");
         }
     }
 
