@@ -30,20 +30,20 @@ plt.ylabel('Avg. ACTs per BR Row',fontsize=24)
 plt.grid(True)
 plt.tight_layout()
 
-plt.yticks(range(0, 71, 10))  # Set ymin and ymax for the y-axis
+plt.yticks(range(0, 81, 10))  # Set ymin and ymax for the y-axis
 plt.xticks(range(1, 21, 1))  # Set xmin and xmax for the x-axis
 plt.ylim(bottom=0) #确保y轴从0开始
-plt.ylim(top=70)  #确保y轴在1100结束
+plt.ylim(top=80)  #确保y轴在1100结束
 plt.xlim(left=1)  # 确保x轴从0开始
 plt.xlim(right=20)  # 确保x轴在6结束
-plt.text(10.5, 65, 'Beyond DDR5 Specs', fontsize=18, rotation=0, color='black', weight='bold')
-plt.text(1.15, 65, 'Within DDR5 Specs', fontsize=18, rotation=0, color='black', weight='bold')
+plt.text(10.5, 73, 'Beyond DDR5 Specs', fontsize=18, rotation=0, color='black', weight='bold')
+plt.text(1.15, 73, 'Within DDR5 Specs', fontsize=18, rotation=0, color='black', weight='bold')
 
 plt.axvline(x=4, color='gray', linestyle='--', linewidth=3, zorder=1)  # Vertical dotted line at x=3
-arrow3 = patches.FancyArrowPatch((1, 63), (4, 63), mutation_scale=15, color='black', arrowstyle='<|-|>', linestyle='--', linewidth=2)
+arrow3 = patches.FancyArrowPatch((1, 70), (4, 70), mutation_scale=15, color='black', arrowstyle='<|-|>', linestyle='--', linewidth=2)
 plt.gca().add_patch(arrow3)
 
-arrow4 = patches.FancyArrowPatch((4, 63), (20, 63), mutation_scale=15, color='black', arrowstyle='<|-|>', linestyle='--', linewidth=2)
+arrow4 = patches.FancyArrowPatch((4, 70), (20, 70), mutation_scale=15, color='black', arrowstyle='<|-|>', linestyle='--', linewidth=2)
 plt.gca().add_patch(arrow4)
 
 # Displaying the plot

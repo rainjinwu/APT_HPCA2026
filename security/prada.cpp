@@ -30,6 +30,7 @@ int main(int argc, char* argv[]){
     uns analyze_step_mitigation=0;
     uns analyze_proximate_row=0;
     uns analyze_general_height=0;
+    uns analyze_extra_refresh=0;
     uns analyze_mixed_attack=0;
     uns analyze_double_sided_attack=0;
     uns trh_double_br[MAX_BLAST_RADIUS + 1];
@@ -61,6 +62,9 @@ int main(int argc, char* argv[]){
         }
         else if (!strcmp(argv[ii], "-g")) {
             analyze_general_height=1;
+        }
+        else if (!strcmp(argv[ii], "-e")) {
+            analyze_extra_refresh=1;
         }
         else if (!strcmp(argv[ii], "-f")) {
             analyze_fractal_mitigation=1;
@@ -278,20 +282,27 @@ int main(int argc, char* argv[]){
         }
         for (int ii = 0; ii <= count * step_init_size; ++ii) {
             if (ii == 0) {
-                Damage = (1 + pvals_step[ii + 1]) * log(pow(10, -18)) / log((1.0 - pvals_step[ii]) * 5.0 / 6.0);
+                Damage = (1 + pvals_step[ii + 1]) * log(pow(10, -18)) / log((1.0 - pvals_step[ii]) * 6.0 / 7.0);
                 uns trh_star = Damage / 2;
                 printf ("%u\t%u\n", ii + 1, trh_star);
             }
             else {
-                if (ii != count * step_init_size) {
-                    Damage = (pvals_step[ii - 1] + pvals_step[ii + 1]) * log(pow(10, -18)) / log(1.0 - pvals_step[ii]);
+                if (ii == 1) {
+                    Damage = (1.0-(1.0-pvals_step[ii - 1])*(1.0-1.0/7.0) + pvals_step[ii + 1]) * log(pow(10, -18)) / log(1.0 - pvals_step[ii]);
                     uns trh_star = Damage / 2;
                     printf ("%u\t%u\n", ii + 1, trh_star);
                 }
                 else {
-                    Damage = pvals_step[ii - 1] * log(pow(10, -18)) / log(1.0 - pvals_step[ii]);
-                    uns trh_star = Damage;
-                    printf ("%u\t%u\n", ii + 1, trh_star);
+                    if (ii != count * step_init_size) {
+                        Damage = (pvals_step[ii - 1] + pvals_step[ii + 1]) * log(pow(10, -18)) / log(1.0 - pvals_step[ii]);
+                        uns trh_star = Damage / 2;
+                        printf ("%u\t%u\n", ii + 1, trh_star);
+                    }
+                    else {
+                        Damage = pvals_step[ii - 1] * log(pow(10, -18)) / log(1.0 - pvals_step[ii]);
+                        uns trh_star = Damage;
+                        printf ("%u\t%u\n", ii + 1, trh_star);
+                    }
                 }
             }
         }
@@ -315,13 +326,13 @@ int main(int argc, char* argv[]){
         // printf ("%u\t%u\t%u\t%u\t%u\n", 1, trh_star1, trh_star1_with_extra_ref,
                 //  trh_star2, trh_star2_with_extra_ref);
 
-        for (int ii = 2; ii <= MAX_BLAST_RADIUS+20; ++ii) {
+        for (int ii = 2; ii <= MAX_BLAST_RADIUS+60; ++ii) {
             printf ("%u\t", ii);
             for (int jj = 2; jj < h2; jj *= 2) {
                 Damage1 = abs((1.0 + 1.0 / (ii * jj)) * log(pow(10, -18))
                             / log(1.0 - 1.0 / ii));
                 Damage1_with_extra_ref = abs((1.0 + 1.0 / (ii * jj)) * log(pow(10, -18))
-                                            / log((1.0 - 1.0 / ii) * (5.0 / 6.0)));
+                                            / log((1.0 - 1.0 / ii) * (6.0 / 7.0)));
 
                 trh_star1[jj] = Damage1 / 2;
                 trh_star1_with_extra_ref[jj] = Damage1_with_extra_ref / 2;
@@ -385,11 +396,36 @@ int main(int argc, char* argv[]){
         }
     }
 
-    if(analyze_double_sided_attack){
-        for (int ii = 1; ii <= MAX_BLAST_RADIUS; ++ii) {
-            double Damage = abs(72 * log(pow(10, -18)) / (2 * log(2 * ii - 1) - 3 * log(2 * ii)));
-            uns trh_star = Damage / (2 * ii);
-            printf ("%u\t%u\n", ii, trh_star);
+    // if(analyze_double_sided_attack){
+    //     for (int ii = 1; ii <= MAX_BLAST_RADIUS; ++ii) {
+    //         double Damage = abs(72 * log(pow(10, -18)) / (2 * log(2 * ii - 1) - 3 * log(2 * ii)));
+    //         uns trh_star = Damage / (2 * ii);
+    //         printf ("%u\t%u\n", ii, trh_star);
+    //     }
+    //     return 0;
+    // }
+
+    if(analyze_extra_refresh){
+        int h = 17; //test step heights of 2, 4, 8, 16
+        double Damage = 0.0;
+        uns trh_star = 0;
+        printf ("%5u\t", 1);
+        for (int ii = 2; ii < h; ii *= 2) {
+            printf ("%5u\t", trh_star);
+        }
+        printf("\n");
+        
+        for (int ii = 2; ii <= 20; ++ii) {
+            printf ("%5u\t", ii);
+            for (int jj = 2; jj < h; jj *= 2) {
+                Damage = abs(((1.0-(1.0-1.0/ii)*(1.0-1.0/7.0)) + 1.0/(ii*jj))
+                            * log(pow(10, -18)) / log(1.0 - 1.0 / (ii * jj)));
+                // Damage = abs((1.0 / ii + 1.0 / (ii * jj)) * log(pow(10, -18))
+                //              / log(1.0 - 1.0 / (ii * jj)));
+                trh_star = Damage / 2;
+                printf ("%5u\t", trh_star);
+            }
+            printf("\n");
         }
         return 0;
     }
