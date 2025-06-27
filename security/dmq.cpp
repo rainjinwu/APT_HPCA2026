@@ -19,9 +19,11 @@ uns TARGET_BANK_MTTF_YRS=10*1000;
 uns SIDED=1;
 
 // insertion probability P (double for two-sided)
-double P = SIDED/34.0; 
+// double P = SIDED/34.0; 
+double P = SIDED/34.0-0.000055704; // 0.000055704 is the correction factor
 uns DMQ_ATTACK_WIDTH=397/SIDED; 
-uns APT_TRH=659*2/SIDED;
+// uns APT_TRH=659*2/SIDED;
+uns APT_TRH=660*2/SIDED; //708 is the value after correction
 uns NUM_ATTACK_LINES=72;
 
 uns PFAIL_MULT=1; // 
@@ -381,9 +383,11 @@ int main(int argc, char* argv[]){
 
   if(print_single_sided){
     SIDED=1;
-    P = SIDED/34.0; 
+    // P = SIDED/34.0; 
+    P = SIDED/34.0-0.000055704; // 0.000055704 is the correction factor
     DMQ_ATTACK_WIDTH=397/SIDED; 
-    APT_TRH=659*2/SIDED;
+    // APT_TRH=659*2/SIDED;
+    APT_TRH=660*2/SIDED;
     init_markov_matrix(size);
     my_highest_trh_star = get_highest_trh_star(size);
     //printf("\nHighest TRH_STAR is %u\n", my_highest_trh_star);
@@ -392,9 +396,11 @@ int main(int argc, char* argv[]){
 
    if(print_double_sided){
      SIDED=2;
-     P = SIDED/34.0; 
+    //  P = SIDED/34.0; 
+     P = SIDED/34.0-0.000055704; // 0.000055704 is the correction factor
      DMQ_ATTACK_WIDTH=397/SIDED; 
-     APT_TRH=659*2/SIDED;
+    //  APT_TRH=659*2/SIDED;
+     APT_TRH=660*2/SIDED;
      init_markov_matrix(size);
      my_highest_trh_star = get_highest_trh_star(size);
      //printf("\nHighest TRH_STAR is %u\n", my_highest_trh_star);

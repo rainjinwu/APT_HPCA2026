@@ -25,7 +25,7 @@ double get_mttf(uns th, uns copies, uns num_attack_lines, uns REFS){
   double rel_time_to_attack;
 
   // double P=(1/((double)TREFI+INCLUDE_VICTIM_REFRESH))*copies;
-  double P=(1/(24.0+INCLUDE_VICTIM_REFRESH))*copies;
+  double P=(1/(34.0+INCLUDE_VICTIM_REFRESH))*copies;
 
   uns new_th = (double)(th)/(double)(copies);
 
